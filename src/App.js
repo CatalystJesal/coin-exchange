@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance';
 import { v4 as uuidv4 } from 'uuid';

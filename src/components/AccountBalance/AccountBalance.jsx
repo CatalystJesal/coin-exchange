@@ -21,15 +21,8 @@ color: white;
 
 export default class AccountBalance extends Component {
 
-    constructor(props){
-        super(props);
 
-        this.handleClick = this.handleClick.bind(this);
-
-    }
-
-
-    handleClick(event){
+    handleClick = (event) => {
             event.preventDefault();
 
             this.props.handleShowBalance(this.props.showBalance);
@@ -38,7 +31,7 @@ export default class AccountBalance extends Component {
     render() {
         const buttonText = this.props.showBalance ? 'Hide Balance' : 'Show Balance';
         return (
-         <Section>Balance: {this.props.showBalance ? `$${this.props.amount}` : null}
+         <Section>{this.props.showBalance ? `Balance: $${this.props.amount}` : null}
          <Button onClick={this.handleClick}>{buttonText}</Button>
          </Section> 
    

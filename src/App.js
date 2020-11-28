@@ -13,61 +13,55 @@ color: #cccccc;
 
 class App extends React.Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      balance: 10000,
-      showBalance: true,
-      coinData: [
-        {
+  state = {
+    balance: 10000,
+    showBalance: true,
+    coinData: [
+      {
 
-          name: 'Bitcoin',
-          ticker: 'BTC',
-          balance: 0.5,
-          price: 9999.99
+        name: 'Bitcoin',
+        ticker: 'BTC',
+        balance: 0.5,
+        price: 9999.99
 
-        },
-        {
-          
-          name: 'Ethereum',
-          ticker: 'ETH',
-          balance: 32.0,
-          price: 299.99
+      },
+      {
+        
+        name: 'Ethereum',
+        ticker: 'ETH',
+        balance: 32.0,
+        price: 299.99
 
-        },
-        {
+      },
+      {
 
-          name: 'Tether',
-          ticker: 'USDT',
-          balance: 0,
-          price: 1.0
+        name: 'Tether',
+        ticker: 'USDT',
+        balance: 0,
+        price: 1.0
 
-        },
-        {
+      },
+      {
 
-          name: 'Ripple',
-          ticker: 'XRP',
-          balance: 1000,
-          price: 0.2
+        name: 'Ripple',
+        ticker: 'XRP',
+        balance: 1000,
+        price: 0.2
 
-        },
-        {
+      },
+      {
 
-          name: 'Bitcoin Cash',
-          ticker: 'BCH',
-          balance: 0,
-          price: 298.99
+        name: 'Bitcoin Cash',
+        ticker: 'BCH',
+        balance: 0,
+        price: 298.99
 
-        }
-      ]
-    }
-    
-    this.handleRefresh = this.handleRefresh.bind(this);
-    this.handleShowBalance = this.handleShowBalance.bind(this);
+      }
+    ]
   }
 
-  handleRefresh(valueChangedTicker){
-    const newCoinData = this.state.coinData.map(function({ticker, name, price}) {
+  handleRefresh = (valueChangedTicker) => {
+    const newCoinData = this.state.coinData.map(function({ticker, name, price, balance}) {
       let newPrice = price;
       if(valueChangedTicker === ticker){
         const randomPercentage = 0.995 + Math.random() * 0.01;
@@ -77,6 +71,7 @@ class App extends React.Component {
       return {
         ticker,
         name,
+        balance,
         price: newPrice
 
       }
@@ -86,7 +81,7 @@ class App extends React.Component {
   }
 
 
-  handleShowBalance(state){
+  handleShowBalance = (state) => {
     let newState = state ? false : true;
 
     this.setState({showBalance : newState});

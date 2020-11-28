@@ -1,7 +1,7 @@
 import React from 'react';
 import CoinList from './components/CoinList/CoinList';
 import AccountBalance from './components/AccountBalance/AccountBalance';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 import AppHeader from './components/AppHeader/AppHeader';
 import styled from 'styled-components';
 
@@ -19,35 +19,35 @@ class App extends React.Component {
       balance: 10000,
       coinData: [
         {
-          key: uuidv4(),
+
           name: 'Bitcoin',
           ticker: 'BTC',
           price: 9999.99
 
         },
         {
-          key: uuidv4(),
+          
           name: 'Ethereum',
           ticker: 'ETH',
           price: 299.99
 
         },
         {
-          key: uuidv4(),
+
           name: 'Tether',
           ticker: 'USDT',
           price: 1.0
 
         },
         {
-          key: uuidv4(),
+
           name: 'Ripple',
           ticker: 'XRP',
           price: 0.2
 
         },
         {
-          key: uuidv4(),
+
           name: 'Bitcoin Cash',
           ticker: 'BCH',
           price: 298.99
@@ -56,13 +56,34 @@ class App extends React.Component {
       ]
     }
     
+    this.handleRefresh = this.handleRefresh.bind(this);
   }
+
+  handleRefresh(valueChangedTicker){
+    const newCoinData = this.state.coinData.map(function({ticker, name, price}) {
+      let newPrice = price;
+      if(valueChangedTicker === ticker){
+        const randomPercentage = 0.995 + Math.random() * 0.01;
+        newPrice =  newPrice * randomPercentage;
+
+      }
+      return {
+        ticker,
+        name,
+        price: newPrice
+
+      }
+    });
+  
+    this.setState({coinData: newCoinData});
+  }
+
   render(){
     return (
       <AppDiv>
         <AppHeader></AppHeader>
         <AccountBalance amount={this.state.balance} />
-        <CoinList coinData={this.state.coinData}></CoinList>
+        <CoinList coinData={this.state.coinData} handleRefresh={this.handleRefresh}></CoinList>
       </AppDiv>
     );
   }

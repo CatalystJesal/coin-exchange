@@ -61,20 +61,14 @@ class App extends React.Component {
   }
 
   handleRefresh = (valueChangedTicker) => {
-    const newCoinData = this.state.coinData.map(function({ticker, name, price, balance}) {
-      let newPrice = price;
-      if(valueChangedTicker === ticker){
+    const newCoinData = this.state.coinData.map(function(values) {
+      let newValues = {...values};
+      if(valueChangedTicker === newValues.ticker){
         const randomPercentage = 0.995 + Math.random() * 0.01;
-        newPrice =  newPrice * randomPercentage;
+        newValues.price *= randomPercentage;
 
       }
-      return {
-        ticker,
-        name,
-        balance,
-        price: newPrice
-
-      }
+      return newValues;
     });
   
     this.setState({coinData: newCoinData});
@@ -86,7 +80,6 @@ class App extends React.Component {
 
     this.setState({showBalance : newState});
 
-    console.log(this.state.showBalance);
   }
 
   render(){

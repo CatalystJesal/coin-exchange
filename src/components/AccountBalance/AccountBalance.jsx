@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
 
@@ -19,25 +19,21 @@ border: 2px;
 color: white;
 `;
 
-export default class AccountBalance extends Component {
+export default function AccountBalance(props) {
 
 
-    handleClick = (event) => {
+    const handleClick = (event) => {
             event.preventDefault();
 
-            this.props.handleShowBalance(this.props.showBalance);
+            props.handleShowBalance(props.showBalance);
     }
 
-    render() {
-        const buttonText = this.props.showBalance ? 'Hide Balance' : 'Show Balance';
+        const buttonText = props.showBalance ? 'Hide Balance' : 'Show Balance';
         return (
-         <Section>{this.props.showBalance ? `Balance: $${this.props.amount}` : null}
-         <Button onClick={this.handleClick}>{buttonText}</Button>
+         <Section>{props.showBalance ? `Balance: $${props.amount}` : null}
+         <Button onClick={handleClick}>{buttonText}</Button>
          </Section> 
-   
         );
-    }
-
 
 }
 

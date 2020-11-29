@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
 
@@ -8,36 +8,29 @@ border: 1px solid #cccccc;
 width: 25vh;
 `;
 
-export default class Coin extends Component {
+export default function Coin(props) {
 
-     state = {
-            price: this.props.price
-        }
-
-
-    handleClick = (event) =>{
+    const handleClick = (event) =>{
         event.preventDefault();
 
-        this.props.handleRefresh(this.props.id);
+        props.handleRefresh(props.id);
 
     }
-    render() {
+
         return (
         <tr>
-            <Td>{this.props.name}</Td>
-            <Td>{this.props.ticker}</Td>
-            <Td>${this.props.price}</Td>
-            {this.props.showBalance ? <Td>{this.props.balance}</Td> : null}
+            <Td>{props.name}</Td>
+            <Td>{props.ticker}</Td>
+            <Td>${props.price}</Td>
+            {props.showBalance ? <Td>{props.balance}</Td> : null}
             <Td>
                 <form action="#" method="POST">
-                <button onClick={this.handleClick}>Refresh</button>
+                <button onClick={handleClick}>Refresh</button>
                 </form>
             </Td>
         </tr>
-        );
-    }
+        )
 }
-
 
 Coin.propTypes = {
     name: PropTypes.string.isRequired,

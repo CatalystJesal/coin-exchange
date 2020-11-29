@@ -14,7 +14,7 @@
     "uuid": "^8.3.1",
     "web-vitals": "^0.2.4"
   },
-  "homepage": "https://catalystjesal.github.io/coin-exchange",
+  "homepage": "http://catalystjesal.github.io/coin-exchange",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

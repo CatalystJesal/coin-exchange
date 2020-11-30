@@ -94,6 +94,7 @@ function App(props) {
     if(coin_id === newValues.key){
 
       if(balance >= price){
+        newValues.price = price;
         newValues.balance += 1;
         setBalance(balance-price);
       } else {
@@ -114,6 +115,7 @@ function App(props) {
     let newValues = {...values};
     
     if(coin_id === newValues.key && newValues.balance > 0){
+        newValues.price = price;
         newValues.balance -= 1;
         setBalance(balance+price);
     }

@@ -23,7 +23,7 @@ export default function CoinList(props) {
           </thead>
           <tbody>
             {props.coinData.map(({key, name, ticker, price, balance}) =>{
-             return <Coin key={key} id={key} handleRefresh={props.handleRefresh} showBalance={props.showBalance} name={name} ticker={ticker} balance={balance} price={price}></Coin>
+             return <Coin key={key} id={key} handleAPIActions={props.handleAPIActions} showBalance={props.showBalance} name={name} ticker={ticker} balance={balance} price={price}></Coin>
             })
             }
           </tbody>

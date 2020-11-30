@@ -15,8 +15,9 @@ color: #cccccc;
 const COIN_COUNT = 10;
 const formatPrice = price => parseFloat(Number(price).toFixed(4));
 
-function App(props) {
+const balanceIncreaseValue = 1200;
 
+function App(props) {
 
   const [balance, setBalance] = useState(10000);
   const [showBalance, setShowBalance] = useState(true);
@@ -32,13 +33,23 @@ function App(props) {
   //The code inside here can still go inside useEffect thanks to latest React change which
   //allows useEffect to fire an async function
   const componentDidMount = async () => {
-    const response = await axios.get('https://api.coinpaprika.com/v1/coins');
-    const coinIds = response.data.slice(0, COIN_COUNT).map(coin => coin.id);
-    const tickerUrl = 'https://api.coinpaprika.com/v1/tickers/';
-    const promises = coinIds.map(id => axios.get(tickerUrl + id))
-    const coinData = await Promise.all(promises);
-    const coinPriceData = coinData.map(function(response){
-      const coin = response.data;
+    const response = await axios.get('https://api.coinpaprika.com/v1/tickers/').catch(function(error){
+      console.log(error);
+    })
+
+    const data = response.data;
+
+    const coinData = data.sort((a, b) => 
+    { 
+      if(a.rank > b.rank){
+        return 1;
+      } else {
+        return -1;
+      }
+    }).slice(0, COIN_COUNT);
+
+    const coinPriceData = coinData.map( values => {
+      const coin = {...values};
       return {
         key: coin.id,
         name: coin.name,
@@ -49,12 +60,14 @@ function App(props) {
     })
     //Retrieve the prices
     setCoinData(coinPriceData);
-    console.log("Component mounted!");
   }
 
-  const handleRefresh = async (coin_id) => {
+
+  const handleAPIActions = async (coin_id, isBuy, isSell) => {
     const url = `https://api.coinpaprika.com/v1/tickers/${coin_id}`;
-    const response = await axios.get(url);
+    const response = await axios.get(url).catch(function(error){
+      console.log(error);
+    });
     const coinResponse = response.data;
     const newPrice = formatPrice(coinResponse.quotes.USD.price);
 
@@ -67,21 +80,65 @@ function App(props) {
     })
   
     setCoinData(newCoinData);
+
+    if(isBuy){ handleBuy(coin_id, newPrice); } 
+    if(isSell){ handleSell(coin_id, newPrice); }
+
+    }
+
+  const handleBuy = (coin_id, price) => {
+
+    const newCoinData = coinData.map(values =>{
+    let newValues = {...values};
+    
+    if(coin_id === newValues.key){
+
+      if(balance >= price){
+        newValues.balance += 1;
+        setBalance(balance-price);
+      } else {
+        alert("Insufficient funds")
+      }
+
+    }
+      return newValues;
+    })
+
+    setCoinData(newCoinData);
+
   }
 
+  const handleSell = (coin_id, price) => {
+
+    const newCoinData = coinData.map(values =>{
+    let newValues = {...values};
+    
+    if(coin_id === newValues.key && newValues.balance > 0){
+        newValues.balance -= 1;
+        setBalance(balance+price);
+    }
+      return newValues;
+    })
+
+    setCoinData(newCoinData);
+
+  }
 
   const handleShowBalance = (state) => {
     let newState = state ? false : true;
-
     setShowBalance(newState);
+  }
 
+  const handleAddBalance = () => {
+    let newBalance = balance + balanceIncreaseValue;
+    setBalance(newBalance);
   }
 
     return (
       <AppDiv>
         <AppHeader></AppHeader>
-        <AccountBalance amount={balance} showBalance={showBalance} handleShowBalance={handleShowBalance}/>
-        <CoinList coinData={coinData} handleRefresh={handleRefresh} showBalance={showBalance}></CoinList>
+        <AccountBalance amount={balance} showBalance={showBalance} handleShowBalance={handleShowBalance} handleAddBalance={handleAddBalance}/>
+        <CoinList coinData={coinData} handleAPIActions={handleAPIActions} showBalance={showBalance}></CoinList>
       </AppDiv>
     );
 

@@ -5,19 +5,15 @@ import helicopterLogo from './helicopter.png';
 
 const Section = styled.section`
 font-size: 2rem;
-text-align: left;
-padding: 1.5rem 0 1.5rem 5rem;
+text-align: center;
+line-height: 3rem;
+// display: inline-block;
 `;
 
 const Button = styled.button`
-display: inline-block;
-padding: 0.5em 1em;
-margin-left: 1.5em;
-vertical-align: middle;
-background-color: #4169E1;
-border-radius: 30px;
-border: 2px;
-color: white;
+margin-right: 10px;
+margin-bottom: 20px;
+width: 150px;
 `;
 
 const ImgButton = styled.button`
@@ -30,14 +26,32 @@ border: 2px;
 display: inline-block;
 padding: 0.5em 1em;
 vertical-align: middle;
-margin-left: 1.5em;
 width: 100px;
-height: 28px;
-color: white;
+margin-bottom: 20px;
 `;
+
+const Balance = styled.div`
+min-width: 250px;
+margin 0.5rem 0 0 2.5rem;
+font-size: 1.6em;
+vertical-align: middle;
+text-align: left;
+`;
+
+var formatter = Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+});
+
 
 export default function AccountBalance(props) {
 
+    const buttonText = props.showBalance ? 'Hide Balance' : 'Show Balance';
+    const buttonClass = 'btn ' + (props.showBalance ? 'btn-warning' : 'btn-info');
+    let content = '\u00A0';
+    if(props.showBalance){
+        content = <>{formatter.format(props.amount)}</>
+    }
 
     const handleShowBalanceClick = (event) => {
             event.preventDefault();
@@ -50,12 +64,14 @@ export default function AccountBalance(props) {
         props.handleAddBalance();
     }
 
-        const buttonText = props.showBalance ? 'Hide Balance' : 'Show Balance';
         return (
-         <Section>{props.showBalance ? `Balance: $${props.amount}` : null}
-         <Button onClick={handleShowBalanceClick}>{buttonText}</Button>
-         <ImgButton onClick={handleAddBalanceClick}></ImgButton>
-         </Section> 
+        <>
+        <Balance>{content}</Balance>
+        <Section>        
+        <Button className={buttonClass} onClick={handleShowBalanceClick}>{buttonText}</Button>
+        <ImgButton onClick={handleAddBalanceClick}></ImgButton>
+        </Section> 
+        </>
         );
 
 }

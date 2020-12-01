@@ -5,6 +5,8 @@ import AccountBalance from './components/AccountBalance/AccountBalance';
 import AppHeader from './components/AppHeader/AppHeader';
 import styled from 'styled-components';
 import axios from 'axios';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootswatch/dist/flatly/bootstrap.min.css';
 
 const AppDiv = styled.div`
 text-align: center;
@@ -20,7 +22,7 @@ const balanceIncreaseValue = 1200;
 function App(props) {
 
   const [balance, setBalance] = useState(10000);
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [coinData, setCoinData] = useState([]);
 
   useEffect(function(){

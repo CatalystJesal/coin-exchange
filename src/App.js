@@ -5,10 +5,12 @@ import AccountBalance from './components/AccountBalance/AccountBalance';
 import AppHeader from './components/AppHeader/AppHeader';
 import styled from 'styled-components';
 import axios from 'axios';
+import 'bootswatch/dist/superhero/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/js/all';
 
 const AppDiv = styled.div`
 text-align: center;
-background-color: rgb(12, 48, 88);
+// background-color: rgb(12, 48, 88);
 color: #cccccc;
 `;
 

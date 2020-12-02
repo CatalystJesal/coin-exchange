@@ -1,43 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import styled from 'styled-components'
-import helicopterLogo from './helicopter.png';
 
 const Section = styled.section`
-font-size: 2rem;
-text-align: left;
-padding: 1.5rem 0 1.5rem 5rem;
+font-size: 1.2rem;
+height: 8vh;
+display: flex;
+justify-content: center;
+align-items: center;
 `;
 
 const Button = styled.button`
-display: inline-block;
-padding: 0.5em 1em;
-margin-left: 1.5em;
-vertical-align: middle;
-background-color: #4169E1;
 border-radius: 30px;
-border: 2px;
-color: white;
+border: none;
+color: black;
+font-weight: bold;
 `;
 
 const ImgButton = styled.button`
-background-image: url(${helicopterLogo});
-background-repeat: no-repeat;
-background-color: #4169E1;
-background-position: 50% 50%;
 border-radius: 30px;
-border: 2px;
-display: inline-block;
-padding: 0.5em 1em;
-vertical-align: middle;
 margin-left: 1.5em;
 width: 100px;
-height: 28px;
-color: white;
 `;
+
+const Balance = styled.div`
+text-align: center;
+font-size: 1.6em;
+margin-top: 0.5em;
+`;
+
+var formatter = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+});
+
 
 export default function AccountBalance(props) {
 
+    const buttonText = props.showBalance ? 'Hide Balance' : 'Show Balance';
+
+    let balanceBtnStyle = props.showBalance ? "btn btn-primary" : 'btn btn-info';
+
+    let balanceVal = '\u00A0';
+    if(props.showBalance){
+     balanceVal = <>{formatter.format(props.amount)}</>
+    }
 
     const handleShowBalanceClick = (event) => {
             event.preventDefault();
@@ -50,12 +57,18 @@ export default function AccountBalance(props) {
         props.handleAddBalance();
     }
 
-        const buttonText = props.showBalance ? 'Hide Balance' : 'Show Balance';
+       
         return (
-         <Section>{props.showBalance ? `Balance: $${props.amount}` : null}
-         <Button onClick={handleShowBalanceClick}>{buttonText}</Button>
-         <ImgButton onClick={handleAddBalanceClick}></ImgButton>
+        <>
+         <Balance>{balanceVal}</Balance>   
+         <Section>
+         <Button className={balanceBtnStyle} onClick={handleShowBalanceClick}>{buttonText}</Button>
+         <ImgButton className="btn btn-danger" onClick={handleAddBalanceClick}>
+
+         <i className="fas fa-helicopter"></i>
+         </ImgButton>
          </Section> 
+         </>
         );
 
 }
